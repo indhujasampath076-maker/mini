@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber Security Encryption Tool</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: white;
+        text-align: center;
+        padding: 40px;
+    }
+    .container {
+        background: rgba(0, 0, 0, 0.8);
+        padding: 30px;
+        border-radius: 15px;
+        max-width: 600px;
+        margin: auto;
+        box-shadow: 0 0 20px #00ffcc;
+    }
+    h1 {
+        color: #00ffcc;
+    }
+    textarea, input {
+        width: 90%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border: none;
+    }
+    button {
+        padding: 10px 20px;
+        margin: 10px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        background: #00ffcc;
+        font-weight: bold;
+    }
+    button:hover {
+        background: #00ccaa;
+    }
+    .output {
+        margin-top: 20px;
+        word-wrap: break-word;
+        background: #111;
+        padding: 15px;
+        border-radius: 8px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>🔐 Cyber Security Encryption Tool</h1>
+
+    <textarea id="message" rows="4" placeholder="Enter your message..."></textarea>
+    <input type="password" id="key" placeholder="Enter secret key">
+
+    <div>
+        <button onclick="encrypt()">Encrypt</button>
+        <button onclick="decrypt()">Decrypt</button>
+    </div>
+
+    <div class="output">
+        <strong>Result:</strong>
+        <p id="result"></p>
+    </div>
+</div>
+
+<script>
+function encrypt() {
+    var message = document.getElementById("message").value;
+    var key = document.getElementById("key").value;
+
+    if(message === "" || key === "") {
+        alert("Please enter message and key");
+        return;
+    }
+
+    var encrypted = CryptoJS.AES.encrypt(message, key).toString();
+    document.getElementById("result").innerText = encrypted;
+}
+
+function decrypt() {
+    var message = document.getElementById("message").value;
+    var key = document.getElementById("key").value;
+
+    if(message === "" || key === "") {
+        alert("Please enter encrypted text and key");
+        return;
+    }
+
+    try {
+        var decrypted = CryptoJS.AES.decrypt(message, key);
+        var originalText = decrypted.toString(CryptoJS.enc.Utf8);
+
+        if(originalText === "") {
+            document.getElementById("result").innerText = "Invalid key or corrupted data!";
+        } else {
+            document.getElementById("result").innerText = originalText;
+        }
+    } catch (e) {
+        document.getElementById("result").innerText = "Decryption failed!";
+    }
+}
+</script>
+
+</body>
+</html>
